@@ -19,16 +19,7 @@ ADeveloperNoteActor::ADeveloperNoteActor()
 
     NoteComponent = CreateDefaultSubobject<UNoteComponent>(TEXT("NoteComponent"));
   
-    UTexture2D* NoteSprite = FDeveloperNotesModule::NotesIcon;
-
-	if (NoteSprite && NoteSprite->IsValidLowLevel())
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Texture must be loaded for note"));
-		SpriteComponent->SetSprite(NoteSprite);
-    }
-
-	else
-		UE_LOG(LogTemp, Warning, TEXT("Developer note actor couldn't load note texture"));
+    UpdateNoteIcon();
 
 	Title = FText::FromString(TEXT("New Note"));
 	Note = FText::FromString(TEXT("Write your note here..."));
@@ -63,6 +54,20 @@ void ADeveloperNoteActor::CheckForMention()
             FSlateNotificationManager::Get().AddNotification(Info);
         }
     }
+}
+
+void ADeveloperNoteActor::UpdateNoteIcon()
+{
+    UTexture2D* NoteSprite = FDeveloperNotesModule::GetNoteTexture(NoteType);
+
+    if (NoteSprite && NoteSprite->IsValidLowLevel())
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Texture must be loaded for note"));
+        SpriteComponent->SetSprite(NoteSprite);
+    }
+
+    else
+        UE_LOG(LogTemp, Warning, TEXT("Developer note actor couldn't load note texture"));
 }
 
 void ADeveloperNoteActor::PostLoad()

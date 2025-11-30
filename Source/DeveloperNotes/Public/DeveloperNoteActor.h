@@ -70,4 +70,5 @@ public:
 
 	virtual void PostLoad() override;
 	void CheckForMention();
+	void UpdateNoteIcon();
 };

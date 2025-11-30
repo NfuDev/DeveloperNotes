@@ -31,6 +31,9 @@ private:
 	TSharedPtr<FString> CurrentValue;
 	TArray<TSharedPtr<FString>> MentionsOptions;
 
+	TSharedPtr<FString> CurrentNoteType;
+	TArray<TSharedPtr<FString>> NoteTypeOptions;
+
 	bool OpenedByMentionedOwner = false;
 
 	void OnTitleCommitted(const FText& NewText, ETextCommit::Type CommitType);
@@ -40,6 +43,7 @@ private:
 	void OnNoteChanged(const FText& NewText);
 
 	void OnMentionChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo);
+	void OnNoteTypeChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo);
 
 	bool bHasNoteChanged = false;
 };

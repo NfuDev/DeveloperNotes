@@ -48,10 +48,10 @@ public:
 	void HandlePostWorldSave(UWorld* World, FObjectPostSaveContext ObjectSaveContext);
 
 	static UTexture2D* NotesIcon;
-	static UTexture2D* BugssIcon;
+	static UTexture2D* BugsIcon;
 
 	inline static  UTexture2D* GetNoteTexture(ENoteType NoteType)
 	{
-		return NoteType == ENoteType::Note ? NotesIcon : BugssIcon;
+		return NoteType == ENoteType::Note ? NotesIcon : BugsIcon;
 	}
 };

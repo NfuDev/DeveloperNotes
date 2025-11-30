@@ -38,6 +38,10 @@ void SDeveloperNodeWidget::Construct(const FArguments& InArgs)
 		}
 	}
 
+	NoteTypeOptions.Add(MakeShared<FString>(FString("Note")));
+	NoteTypeOptions.Add(MakeShared<FString>(FString("Bug ")));
+
+	CurrentNoteType = NoteActor->NoteType == ENoteType::Note ? NoteTypeOptions[0] : NoteTypeOptions[1];
 
 	ChildSlot
 		[
@@ -52,10 +56,34 @@ void SDeveloperNodeWidget::Construct(const FArguments& InArgs)
 						]
 						+ SVerticalBox::Slot().AutoHeight().Padding(2)
 						[
-							SAssignNew(TitleBox, SEditableTextBox)
-								.Text(Title)
-								.OnTextCommitted(this, &SDeveloperNodeWidget::OnTitleCommitted)
-								.OnTextChanged(this, &SDeveloperNodeWidget::OnTitleChanged)
+							SNew(SHorizontalBox)
+								+SHorizontalBox::Slot()
+								.HAlign(HAlign_Fill)
+								[
+									SAssignNew(TitleBox, SEditableTextBox)
+										.Text(Title)
+										.OnTextCommitted(this, &SDeveloperNodeWidget::OnTitleCommitted)
+										.OnTextChanged(this, &SDeveloperNodeWidget::OnTitleChanged)
+								]
+								+SHorizontalBox::Slot()
+								.AutoWidth()
+								[
+									SNew(SComboBox<TSharedPtr<FString>>)
+										.OptionsSource(&NoteTypeOptions)
+										.OnSelectionChanged(this, &SDeveloperNodeWidget::OnNoteTypeChanged)
+										.OnGenerateWidget_Lambda([](const TSharedPtr<FString>& Item)
+											{
+												return SNew(STextBlock).Text(FText::FromString(*Item));
+											})
+										.InitiallySelectedItem(CurrentNoteType)
+										[
+											SNew(STextBlock)
+												.Text_Lambda([this]()
+													{
+														return FText::FromString(CurrentNoteType.IsValid() ? *CurrentNoteType : TEXT("Note"));
+													})
+										]
+								]
 						]
 
 						+ SVerticalBox::Slot().AutoHeight().Padding(2)
@@ -218,5 +246,19 @@ void SDeveloperNodeWidget::OnMentionChanged(TSharedPtr<FString> NewSelection, ES
 		NoteActor->MarkPackageDirty();
 		
 		CurrentValue = NewSelection;
+	}
+}
+
+void SDeveloperNodeWidget::OnNoteTypeChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo)
+{
+	if (NoteActor.IsValid() && NewSelection.IsValid())
+	{
+		FString SelectedOption = *NewSelection;
+		NoteActor->Modify();
+		NoteActor->NoteType = SelectedOption == "Note" ? ENoteType::Note : ENoteType::Bug;
+		NoteActor->UpdateNoteIcon();
+		NoteActor->MarkPackageDirty();
+
+		CurrentNoteType = NewSelection;
 	}
 }

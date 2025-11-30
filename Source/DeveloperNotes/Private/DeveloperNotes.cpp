@@ -18,7 +18,7 @@
 #include "DeveloperNodeWidget.h"
 
 UTexture2D* FDeveloperNotesModule::NotesIcon = nullptr;
-UTexture2D* FDeveloperNotesModule::BugssIcon = nullptr;
+UTexture2D* FDeveloperNotesModule::BugsIcon = nullptr;
 
 #define LOCTEXT_NAMESPACE "FDeveloperNotesModule"
 
@@ -82,7 +82,7 @@ UTexture2D* FDeveloperNotesEditorStyle::GetBrushAsTexture(FName BrushName)
 		return nullptr;
 
 	FString PluginResourcesDir = Plugin->GetBaseDir() / TEXT("Resources");
-	FString FullFilePath = PluginResourcesDir / TEXT("NoteIcon.png");
+	FString FullFilePath = PluginResourcesDir / *BrushName.ToString();
 
     if (!FPlatformFileManager::Get().GetPlatformFile().FileExists(*FullFilePath))
     {
@@ -148,8 +148,10 @@ void FDeveloperNotesModule::StartupModule()
     }
 
 
-    NotesIcon = FDeveloperNotesEditorStyle::GetBrushAsTexture("Note");
+    NotesIcon = FDeveloperNotesEditorStyle::GetBrushAsTexture("NoteIcon.png");
+    BugsIcon = FDeveloperNotesEditorStyle::GetBrushAsTexture("BugsIcon.png");
     NotesIcon->AddToRoot();
+    BugsIcon->AddToRoot();
 
     FEditorDelegates::PostSaveWorldWithContext.AddRaw(this, &FDeveloperNotesModule::HandlePostWorldSave);
 }
