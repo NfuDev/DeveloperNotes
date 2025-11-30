@@ -1,0 +1,31 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "DeveloperNotes",
+	"Description": "made to help organizing team 2 work in the hackathone",
+	"Category": "Other",
+	"CreatedBy": "Nightfall16",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "DeveloperNotes",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit"
+		}
+	],
+	"Settings": [
+		{
+			"Name": "Developer Notes",
+			"ClassName": "UDeveloperNotesSettings",
+			"Category": "Plugins"
+		}
+	]
+}
