@@ -177,9 +177,12 @@ void FDeveloperNotesModule::RegisterMenus()
     UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.ActorContextMenu");
     if (!Menu) return;
 
-   
+#if ENGINE_MINOR_VERSION == 3
+    FToolMenuSection& Section = Menu->FindOrAddSection("DeveloperNotes");
+    Section.InsertPosition = FToolMenuInsert(NAME_None, EToolMenuInsertType::First);
+#else
     FToolMenuSection& Section = Menu->FindOrAddSection("DeveloperNotes", FText::GetEmpty(), FToolMenuInsert(NAME_None, EToolMenuInsertType::First));
-       
+#endif
 
     Section.AddMenuEntry("DeveloperNotes", LOCTEXT("AddNoteLabel", "Add Developer Note"), LOCTEXT("AddNoteTooltip", "Spawns a new developer note"),
         FSlateIcon(FAppStyle::GetAppStyleSetName(), "Icons.Plus"),
@@ -204,11 +207,18 @@ void FDeveloperNotesModule::RegisterMenus()
             if (NoteActorCount == 1 && SelectedNote)
             {
 
+#if ENGINE_MINOR_VERSION == 3
+                FToolMenuSection& PreviewSection = InMenu->FindOrAddSection("DeveloperNotes");
+                PreviewSection.InsertPosition = FToolMenuInsert(NAME_None, EToolMenuInsertType::First);
+#else
+
                 FToolMenuSection& PreviewSection = InMenu->FindOrAddSection(
                     "DeveloperNotes",
                     FText::GetEmpty(),
                     FToolMenuInsert(NAME_None, EToolMenuInsertType::First)
                 );
+#endif
+
 
                 PreviewSection.AddMenuEntry("ViewNoteAction", LOCTEXT("ViewNoteLabel", "View Note"), LOCTEXT("ViewNoteTooltip", "Opens the note overlay."),
                     FSlateIcon(FAppStyle::GetAppStyleSetName(), "Icons.Edit"),
