@@ -31,13 +31,16 @@ the team info is needed for the plguin to auto sign your notes with your name an
 
 ---
 
-4- fill up the note title and the note type and details also mention a team member if you want
+4- fill up the note title and the note type and details also mention a team member if you want, and you can press the collect context button to collect selected actors as context to this note
+this will draw lines to them so that you know what the note is talking about.
 
-<img width="470" height="388" alt="image" src="https://github.com/user-attachments/assets/c31389a0-ced0-4b6e-8cf7-46c138015bb0" />
+<img width="1182" height="530" alt="image" src="https://github.com/user-attachments/assets/1103f6d3-a623-4ed1-9011-dfd7c056952f" />
+
 
 and decide the type :
 
-<img width="470" height="388" alt="image" src="https://github.com/user-attachments/assets/d08bf2ae-6357-44b5-ac68-d7e97a6c3b6c" />
+<img width="219" height="206" alt="image" src="https://github.com/user-attachments/assets/d9a66f50-04a0-4a2b-a117-18be7c1e8ac8" />
+
 
 and unresolved issues will have this notification on the mentioned developer pc , here you see yahya mentioned me to solve walls issues 
 
