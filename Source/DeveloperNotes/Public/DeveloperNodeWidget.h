@@ -45,5 +45,7 @@ private:
 	void OnMentionChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo);
 	void OnNoteTypeChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo);
 
+	FReply CollectNoteContext();
+
 	bool bHasNoteChanged = false;
 };

@@ -12,7 +12,9 @@ ADeveloperNoteActor::ADeveloperNoteActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-    
+    SetActorHiddenInGame(true);
+    bIsEditorOnlyActor = true;
+
 	SpriteComponent = CreateDefaultSubobject<UBillboardComponent>(TEXT("Note"));
 	SpriteComponent->SetupAttachment(RootComponent);
 	RootComponent = SpriteComponent;
@@ -114,9 +116,24 @@ void FDeveloperNoteVisualizer::DrawVisualizationHUD(const UActorComponent* Compo
         float TextX = ScreenLocation.X;
         float TextY = ScreenLocation.Y;
 
-        Canvas->DrawShadowedString(TextX, TextY, *NoteText, Font, GetMutableDefault<UDeveloperNotesSettings>()->NoteTextColor);
-  
+        Canvas->DrawShadowedString(TextX, TextY, *NoteText, Font, GetMutableDefault<UDeveloperNotesSettings>()->NoteTextColor); 
+
     }
+}
+
+void FDeveloperNoteVisualizer::DrawVisualization(const UActorComponent* Component, const FSceneView* View, FPrimitiveDrawInterface* PDI)
+{
+    if (!Component || !Component->GetOwner()) return;
+
+    const ADeveloperNoteActor* NoteActor = Cast<ADeveloperNoteActor>(Component->GetOwner());
+    if (!NoteActor) return;
+;
+    for (AActor* contextActor : NoteActor->NoteContext)
+    {
+        PDI->DrawLine(NoteActor->GetActorLocation(), contextActor->GetActorLocation(), FColor::Yellow, ESceneDepthPriorityGroup::SDPG_Foreground, 15.0f);
+        PDI->DrawPoint(contextActor->GetActorLocation(), FColor::Yellow, 20.0f, ESceneDepthPriorityGroup::SDPG_Foreground);
+    }
+
 }
 
 UNoteComponent::UNoteComponent()

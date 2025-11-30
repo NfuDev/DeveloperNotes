@@ -16,6 +16,8 @@ public:
 
 	// FComponentVisualizer interface
 	virtual void DrawVisualizationHUD(const UActorComponent* Component, const FViewport* Viewport, const FSceneView* View, FCanvas* Canvas) override;
+	virtual void DrawVisualization(const UActorComponent* Component, const FSceneView* View, FPrimitiveDrawInterface* PDI) override;
+
 };
 
 UCLASS()
@@ -67,6 +69,9 @@ public:
 	UPROPERTY()
 	TObjectPtr<UNoteComponent> NoteComponent;
 
+
+	UPROPERTY()
+	TArray<AActor*> NoteContext;
 
 	virtual void PostLoad() override;
 	void CheckForMention();

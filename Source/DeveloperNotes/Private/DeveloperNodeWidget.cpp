@@ -8,6 +8,7 @@
 #include "Widgets/Input/SEditableTextBox.h"
 #include "Widgets/Text/STextBlock.h"
 #include "Components/WidgetSwitcher.h"
+#include "Selection.h"
 
 void SDeveloperNodeWidget::Construct(const FArguments& InArgs)
 {
@@ -83,6 +84,22 @@ void SDeveloperNodeWidget::Construct(const FArguments& InArgs)
 														return FText::FromString(CurrentNoteType.IsValid() ? *CurrentNoteType : TEXT("Note"));
 													})
 										]
+								]
+							+ SHorizontalBox::Slot()
+								.AutoWidth()
+								.Padding(2.0f,0.0f)
+								[
+									SNew(SButton)
+										.ToolTipText(FText::FromString("Collect selected actors as context, this will draw arrows to them so other devs can know the context of this note"))
+										[
+											SNew(SBox)
+												.WidthOverride(20.0f)
+												.HeightOverride(20.0f)
+												[
+													SNew(SImage).Image(FAppStyle::Get().GetBrush("Profiler.Misc.CopyToClipboard"))
+												]
+										]
+									.OnClicked(this, &SDeveloperNodeWidget::CollectNoteContext)
 								]
 						]
 
@@ -261,4 +278,29 @@ void SDeveloperNodeWidget::OnNoteTypeChanged(TSharedPtr<FString> NewSelection, E
 
 		CurrentNoteType = NewSelection;
 	}
+}
+
+FReply SDeveloperNodeWidget::CollectNoteContext()
+{
+	if(GEditor && NoteActor.IsValid())
+	{
+		NoteActor->Modify();
+
+		NoteActor->NoteContext.Reset();
+
+		USelection* SelectedActors = GEditor->GetSelectedActors();
+
+		for (FSelectionIterator It(*SelectedActors); It; ++It)
+		{
+			if (AActor* Actor = Cast<AActor>(*It))
+			{
+				if(Actor != NoteActor)
+				   NoteActor->NoteContext.Add(Actor);
+			}
+		}
+
+		NoteActor->MarkPackageDirty();
+	}
+
+	return FReply::Handled();
 }
