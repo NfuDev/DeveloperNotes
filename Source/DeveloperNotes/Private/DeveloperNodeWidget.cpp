@@ -222,7 +222,9 @@ void SDeveloperNodeWidget::OnTitleChanged(const FText& NewText)
 {
 	if (NoteActor.IsValid())
 	{
+		NoteActor->Modify();
 		NoteActor->Title = NewText;
+		NoteActor->MarkPackageDirty();
 	}
 
 	if(!bHasNoteChanged)
