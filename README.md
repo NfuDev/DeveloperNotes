@@ -9,7 +9,7 @@ supported engine versions :
 ![UE 5.5](https://img.shields.io/badge/UE-5.5-brightgreen)
 ![UE 5.6](https://img.shields.io/badge/UE-5.6-brightgreen)
 
-Find on fab : https://www.fab.com/listings/5c13a1ab-b63e-4b65-8e92-e24a619861af
+Find on [Fab](https://www.fab.com/listings/5c13a1ab-b63e-4b65-8e92-e24a619861af)
 ---
 ## how to use :
 
